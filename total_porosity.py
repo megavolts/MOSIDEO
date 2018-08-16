@@ -4,14 +4,14 @@
 
 """
 import sys
-sys.path.extend(['/home/megavolts/git/seaice'])
-
-import seaice
 import os
 import numpy as np
 import pandas as pd
 import configparser  # to read config files
 import matplotlib.pyplot as plt
+
+sys.path.extend(['/home/megavolts/git/seaice'])
+import seaice
 
 data_folder = '/mnt/data/UAF-data/MOSIDEO/HSVA/data/'
 
