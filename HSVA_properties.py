@@ -90,7 +90,7 @@ else:
                     if t is not False:
                         # make a copy of 'conductivity' profile
                         _s_profile = _ic_dict[ic].profile.loc[_ic_dict[ic].profile.variable == 'conductivity'].copy()
-                        _s_profile['salinity'] = seaice.property.nacl.sw_con2sal(c, t, 0)
+                        _s_profile['salinity'] = seaice.property.nacl_ice.sw_con2sal(c, t, 0)
                         _s_profile['variable'] = 'salinity'
                         for col_name in ['conductivity', 'measurement temperature', 'Conductivity measurement temperature']:
                             if col_name in _s_profile.keys():
@@ -224,9 +224,10 @@ for col in ic_df.collection.unique():
     for ic in col.split(', '):
         if 'salinity' in ic_df.loc[ic_df.name == ic, 'variable'].unique() and ic not in _ics:
             _ics.append(ic)
-            s_data = ic_df.loc[(ic_df.name == ic) & (ic_df.variable == 'salinity')].copy()
-            t_data = ic_df.loc[(ic_df.collection == col) & (ic_df.variable == 'temperature')].copy()
-            data = seaice.property.compute_phys_prop_from_core(s_data, t_data, prop, display_figure=False, resize_core=False, prop_name='S')
+            s_profile = ic_df.loc[(ic_df.name == ic) & (ic_df.variable == 'salinity')].copy()
+            t_profile = ic_df.loc[(ic_df.collection == col) & (ic_df.variable == 'temperature')].copy()
+            data = seaice.property.compute_phys_prop_from_core(s_profile, t_profile, prop,
+                                                               display_figure=False, resize_core=False, prop_name='S')
             plt.show()
             ic_df = ic_df.append(data, sort=False)
     del _ics
